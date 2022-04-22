@@ -1,0 +1,69 @@
+const express = require("express");
+const router = express.Router();
+const {bizzUser} = require('../models/collections/Users');
+var bodyParser = require('body-parser');
+const app = express();
+const jsonParse = bodyParser.json();
+app.use(bodyParser.urlencoded({extended: true}));
+
+//Api Routes
+router.get("/", (req,res) =>{
+    bizzUser.find()
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err ))
+});
+
+router.get("/:id", (req,res)=>{
+    bizzUser.findById(req.params.id)
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error:' + err))
+});
+    
+
+
+router.post("/add",jsonParse, async (req,res) =>{
+    console.log(JSON.stringify(req.body));
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
+    const company = req.body.company;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const urls = req.body.urls;
+    const address = req.body.address;
+    const birthday = req.body.birthday;
+    const posted = req.body.posted;
+    const updated = req.body.updated;
+    const social_links = req.body.social_links;
+    const instant_messagers = req.body.instant_messagers;
+    const notes = req.body.notes;
+
+    const newUser = new bizzUser({
+        first_name,
+        last_name,
+        company,
+        phone,
+        email,
+        urls,
+        address,
+        birthday,
+        posted,
+        updated,
+        social_links,
+        instant_messagers,
+        notes
+    });
+    await newUser.save() 
+    .then(() => res.json("user Added"))
+    .catch(err => res.status(400).json('Error: ' + err ))
+});
+
+router.delete("/remove", async(req,res)=>{
+    try{
+        const removeRecord = await bizzUser.deleteOne(itemObj);
+        console.log(removeRecord);
+    }catch(e){
+        console.log(e.message);
+    }
+
+})
+module.exports = router;

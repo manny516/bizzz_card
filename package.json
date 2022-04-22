@@ -1,0 +1,15 @@
+{
+  "name": "bizzzcard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "app": "concurrently \"cd backend && npm run server\"  \"cd frontend && npm run start \" "
+  },
+  "author": "Mannyidea",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
