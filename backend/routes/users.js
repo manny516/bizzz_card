@@ -57,9 +57,10 @@ router.post("/add",jsonParse, async (req,res) =>{
     .catch(err => res.status(400).json('Error: ' + err ))
 });
 
-router.post("/update/:id", async (req,res)=>{
+router.put("/update/:id", jsonParse, async (req,res)=>{
     bizzUser.findById(req.params.id)
-    .then(bizzzCards =>{
+    .then(async bizzzCards =>{
+        bizzzCards.id = req.params._id;
         bizzzCards.first_name = req.body.first_name;
         bizzzCards.last_name = req.body.last_name;
         bizzzCards.company = req.body.company;
@@ -74,7 +75,7 @@ router.post("/update/:id", async (req,res)=>{
         bizzzCards.instant_messagers = req.body.instant_messagers;
         bizzzCards.notes = req.body.notes;
 
-        bizzzCards.save()
+       await  bizzzCards.save()
         .then(() => res.json('User Updated'))
         .catch( err => res.status(400).json("Error:" + err))
     })

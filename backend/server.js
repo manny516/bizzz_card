@@ -3,21 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
-const {ApolloServer,gql} = require('apollo-server-express');
+const {ApolloServer} = require('apollo-server-express');
 const usersRoutes = require('./routes/users');
 const {typeDefs,resolvers} = require('./schema');
-const {createNewUser} =  require('./models/create');
-const {deleteItem} = require('./models/delete');
 require("dotenv").config();
-
-let newUser = {
-    first_name: "Tony",
-    last_name : "Genve",
-    company: "Rays Pizza",
-    phone: "5164929627",
-    email:"Rays@gmail.com"
-}
-
 
 const startServer = async () => {
     
@@ -55,10 +44,6 @@ const startServer = async () => {
     
     app.get("/code", (req,res)=>{
         res.send(`<h1>Hello world</h1>`);
-    });
-
-    app.get("/remove_user", (req,res) =>{
-        deleteItem();
     });
 
     const ApiRoutes = require("./routes/users");
