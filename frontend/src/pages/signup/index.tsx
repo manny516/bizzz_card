@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import  Header  from "../../components/globals/header";
+import  Header  from "components/globals/header";
 
 const Signup:NextPage = () =>{
 
