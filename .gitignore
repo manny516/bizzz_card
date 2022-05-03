@@ -8,8 +8,9 @@ node_modules
 # testing
 /frontend/coverage
 
+
 # next.js
-/.next/
+/frontend/.next/
 /out/
 
 # production
