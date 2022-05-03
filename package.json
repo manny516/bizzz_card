@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "app": "concurrently \"cd backend && npm run server\"  \"cd frontend && npm run start \" "
+    "app": "concurrently \"cd backend && npm run server\"  \"cd frontend && npm run dev \" "
   },
   "author": "Mannyidea",
   "license": "MIT",
