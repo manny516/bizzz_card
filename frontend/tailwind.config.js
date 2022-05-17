@@ -10,8 +10,7 @@ module.exports = {
         padding : '2rem',
       },
       colors : {
-        'grey-blue' : '#F2F2FB',
-        'grey-purple' : '#5B608A'
+        'primary' : '#5B21B6',
       }
     },
   },

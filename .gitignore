@@ -10,7 +10,7 @@ node_modules
 
 
 # next.js
-/frontend/.next/
+/frontend/.next
 /out/
 
 # production

@@ -15,10 +15,15 @@ p {
     font-size: 1rem;
 }
 
+a{
+    color: theme('colors.primary')
+}
+
 blockquote span {
     font-size: 0.8rem;
 }
 
+<<<<<<< HEAD
 a{
     color: #37BCF8;
 }
@@ -32,4 +37,8 @@ input{
 
 .dark-mode{
     color: #FFFFFF;
+=======
+.dark-mode{
+    color: #FFFFFF
+>>>>>>> user-profile
 }
