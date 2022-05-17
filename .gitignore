@@ -10,8 +10,7 @@ node_modules
 
 
 # next.js
-/frontend/.next/*
-/frontend/.next/cache/webpack/client-development
+/frontend/.next/
 /out/
 
 # production
