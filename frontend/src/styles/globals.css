@@ -18,3 +18,18 @@ p {
 blockquote span {
     font-size: 0.8rem;
 }
+
+a{
+    color: #37BCF8;
+}
+a:hover{
+    color: #0e9ad6;
+}
+
+input{
+    padding-left: 10px;
+}
+
+.dark-mode{
+    color: #FFFFFF;
+}
