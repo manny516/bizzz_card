@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import MetaHeader from 'components/globals/MetaHeader'
+import  MetaHead  from "components/globals/MetaHead";
 import { useRouter } from "next/router";
 import Imgix, { ImgixProvider } from "react-imgix";
 
@@ -9,7 +9,7 @@ const Profile: NextPage = () => {
 
   return (
     <>
-        <MetaHeader/>
+        <MetaHead/>
         <section className='card-bg w-screen h-80 overflow-hidden'>
        <h1>
           Welcome User {slug}

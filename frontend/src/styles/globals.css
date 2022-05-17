@@ -15,6 +15,14 @@ p {
     font-size: 1rem;
 }
 
+a{
+    color: theme('colors.primary')
+}
+
 blockquote span {
     font-size: 0.8rem;
+}
+
+.dark-mode{
+    color: #FFFFFF
 }
