@@ -1,11 +1,11 @@
 import { NextPage } from "next";
-import  Header  from "components/globals/header";
+import  MetaHead  from "components/globals/MetaHead";
 
 const Signup:NextPage = () =>{
 
     return(
         <>
-            <Header />
+            <MetaHead />
             <h1>
                 Sign Page 
             </h1>
