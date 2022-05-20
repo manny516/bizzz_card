@@ -26,3 +26,8 @@ blockquote span {
 .dark-mode{
     color: #FFFFFF
 }
+
+.blur-box {
+    background-color: #FFF;
+    box-shadow: 0 0 5px 10px #FFF;
+}
