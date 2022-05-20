@@ -23,10 +23,6 @@ blockquote span {
     font-size: 0.8rem;
 }
 
-<<<<<<< HEAD
-a{
-    color: #37BCF8;
-}
 a:hover{
     color: #0e9ad6;
 }
@@ -37,8 +33,9 @@ input{
 
 .dark-mode{
     color: #FFFFFF;
-=======
-.dark-mode{
-    color: #FFFFFF
->>>>>>> user-profile
+}
+
+.blur-box {
+    background-color: #FFF;
+    box-shadow: 0 0 5px 10px #FFF;
 }
