@@ -28,5 +28,10 @@ const userSchema = new mongoose.Schema({
     notes: String
 });
 
+const userAccount = new mongoose.Schema({
+    username: String,
+    password:String,
+    bizzzcard: userSchema
+});
 
-export const bizzUser = mongoose.model('User', userSchema);
+export const bizzUser = mongoose.model('bizzuser', userAccount);

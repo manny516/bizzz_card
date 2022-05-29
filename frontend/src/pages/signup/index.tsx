@@ -32,7 +32,7 @@ const Signup:NextPage = () =>{
                             <input placeholder="Create Password" className="w-full h-14 bg-gray-200 rounded-xl pl-4" type="password" name="password"  />
                         </article>
                         
-                        <input id="sign-up" type="submit" name="signup" className="p-2 h-12 text-center border-none bg-primary w-full cursor-pointer text-white rounded-lg mt-4 hover:bg-zinc-800 text-black" value="Create Account" />
+                        <input id="sign-up" type="submit" name="signup" className="p-2 h-12 text-center border-none bg-primary w-full cursor-pointer text-white rounded-lg mt-4 hover:bg-zinc-800 text-black" />
                         <span className="block mt-4 text-center"> Already have an account ? <a href="/login">Login </a></span>
                     </form>
 

@@ -4,7 +4,7 @@ const {gql} = require('apollo-server-express');
 export const typeDefs= gql`
     type Query{
         test : String!
-        users : [User]
+        users : [BizzzAccount]
     }
 
     type Usersaddress{
@@ -16,8 +16,7 @@ export const typeDefs= gql`
         country: String
     }
 
-    type User{
-        id:ID!,
+    type UserCard{
         first_name: String,
         last_name : String,
         company : String,
@@ -31,6 +30,13 @@ export const typeDefs= gql`
         socialLinks: [String],
         instant_messagers:[String],
         notes: String
+    }
+
+    type BizzzAccount{
+        id:ID!,
+        username: String,
+        password: String,
+        bizzzcard: [UserCard]
     }
 
 `;

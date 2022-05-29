@@ -4,6 +4,7 @@ const {bizzUser} = require('../models/collections/Users');
 var bodyParser = require('body-parser');
 const app = express();
 const jsonParse = bodyParser.json();
+const bcrypt = require('bcrypt');
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Api Routes
@@ -22,38 +23,17 @@ router.get("/:id", (req,res)=>{
     
 
 
-router.post("/add",jsonParse, async (req,res) =>{
+router.post("/:id/add",jsonParse, async (req,res) =>{
 
-    const first_name = req.body.first_name;
-    const last_name = req.body.last_name;
-    const company = req.body.company;
-    const phone = req.body.phone;
-    const email = req.body.email;
-    const urls = req.body.urls;
-    const address = req.body.address;
-    const birthday = req.body.birthday;
-    const posted = req.body.posted;
-    const updated = req.body.updated;
-    const social_links = req.body.social_links;
-    const instant_messagers = req.body.instant_messagers;
-    const notes = req.body.notes;
-    const accounts = req.body.accounts;
+    const password = await bcrypt.hash(req.body.password,10);
+    const username = req.body.username;
+    const bizzzcard = req.body.bizzzcard;
 
     const newUser = new bizzUser({
-        first_name,
-        last_name,
-        company,
-        phone,
-        email,
-        urls,
-        address,
-        birthday,
-        posted,
-        updated,
-        social_links,
-        instant_messagers,
-        notes,
-        accounts
+        username,
+        password,
+        bizzzcard
+            
     });
     await newUser.save() 
     .then(() => res.json("user Added"))

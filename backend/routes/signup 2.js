@@ -12,14 +12,14 @@ app.use(bodyParser.urlencoded({extended : true}));
 router.post("/", jsonParse, async(req,res) =>{
 
     try{
-        const password = await bcrypt.hash(req.body.password,10);
+        const hash_password = await bcrypt.hash(req.body.password,10);
         const username = req.body.username;
-        const bizzzcard = req.body.bizzzcard;
+        const email = req.body.email;
 
         const registerUser = new bizzUser({
             username,
-            password,
-            bizzzcard
+            hash_password,
+            email
         });
 
         await registerUser.save()
@@ -30,6 +30,8 @@ router.post("/", jsonParse, async(req,res) =>{
     }catch{
         res.redirect("http://localhost:3000/signup");
     }
+
+    console.log(bizzUser.find());
 });
 
 
