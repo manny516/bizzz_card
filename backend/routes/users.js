@@ -11,6 +11,7 @@ router.get("/", (req,res) =>{
     bizzUser.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err ))
+    // res.render('http://localhost:3000/login');
 });
 
 router.get("/:id", (req,res)=>{
@@ -36,6 +37,7 @@ router.post("/add",jsonParse, async (req,res) =>{
     const social_links = req.body.social_links;
     const instant_messagers = req.body.instant_messagers;
     const notes = req.body.notes;
+    const accounts = req.body.accounts;
 
     const newUser = new bizzUser({
         first_name,
@@ -50,7 +52,8 @@ router.post("/add",jsonParse, async (req,res) =>{
         updated,
         social_links,
         instant_messagers,
-        notes
+        notes,
+        accounts
     });
     await newUser.save() 
     .then(() => res.json("user Added"))
