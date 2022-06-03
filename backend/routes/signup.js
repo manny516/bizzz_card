@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {bizzUser} = require('../models/collections/Users');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const app = express();
 const jsonParse = bodyParser.json();
 const bcrypt = require('bcrypt');
@@ -25,8 +25,6 @@ router.post("/", jsonParse, async(req,res) =>{
         await registerUser.save()
         .then(() => res.json("User Created"))
         .catch(err => res.status(400).json('Error' + err));
-
-        res.redirect("http://localhost:3000/login");
     }catch{
         res.redirect("http://localhost:3000/signup");
     }
