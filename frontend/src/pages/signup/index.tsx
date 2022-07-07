@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import  MetaHead  from "components/globals/MetaHead";
 import bgimage from "img/bgstarts.jpg";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import ValidationEmail from "../../components/globals/ValidationEmail";
 
@@ -14,9 +14,9 @@ type FormState = {
 }
 
 type ErrorState = {
-    usernameError : Boolean,
-    passwordError : Boolean,
-    emailError : Boolean 
+    usernameError : String,
+    passwordError : String,
+    emailError : String 
 }
 
 const Signup:NextPage = () =>{
@@ -24,30 +24,90 @@ const Signup:NextPage = () =>{
     const signupAPI = "http://localhost:4000/signup";
 
     const initFormState = {
-        username : "",
-        password : "",
+        username : " ",
+        password : " ",
         email : "",
-        bizzzcard : "",
+        bizzzcard : " ",
     }
 
-    const errorStateForm = {
-        usernameError : true,
-        passwordError:false,
-        emailError: false,
-    }
 
     const [fieldState, setFieldState] = useState<FormState>(initFormState);
-    const [errorState, setErrorState] = useState<ErrorState>(errorStateForm);
+    const [errorState, setErrorState] = useState<ErrorState>({
+        usernameError : " ",
+        passwordError:" ",
+        emailError: " ",
+    });
 
-    if(fieldState.username.length > 4 ){
-        const errorprops = {...errorState};
-        errorprops['usernameError'] = false;
-        setErrorState(errorprops);
+        // const validation = () => {
+        // let emailError = " ";
+        // let usernameError = " ";
+        // let passwordError = " ";
+    
+        // if(!ValidationEmail(fieldState.email)){
+        //     emailError = "Sorry invalid Email";
+        // }
+
+        // if(fieldState.username.length < 4 ){
+        //     usernameError = " User name must be more then 4 character";
+        // }
+
+        // if(fieldState.password.length < 4){
+        //     passwordError = "Passwords must contain at least eight characters, including at least 1 letter and 1 number";
+        // }
+
+        // if(emailError){
+        //     errorState.emailError = emailError;
+        //     setErrorState(errorState)
+        // }
+
+        // if(usernameError){
+        //     errorState.usernameError = usernameError;
+        //     setErrorState(errorState)
+        // }
+
+        // if(passwordError){
+        //     errorState.passwordError = passwordError;
+        //     setErrorState(errorState);
+        // }
+
+        // return true
+        // if(emailError){
+        //     console.log(emailError);
+        // }else{
+        //     console.log(emailError);
+        // }
+        // if(emailError){
+        //     setFieldState(emailError);
+        //     return false;
+        // }
+        // // return true;
+        // console.log(emailError)
+    //     return true
+    // }
+
+    
+    
+    console.log(fieldState.email.length);
+
+     const updateFormHandler =  (event : ChangeEvent<HTMLInputElement>) =>{
+        const {id,value} = event.target;
+        const formKey = id as keyof FormState;
+        const updatedFormState = {...fieldState};
+        updatedFormState[formKey] = value;
+        setFieldState(updatedFormState);
     }
 
+
+   
+
+ 
     const handleSubmit = async (event: FormState) =>{
         event.preventDefault();
         await postSubmission();
+        // let isValid = validation();
+        // if(isValid){
+        //      console.log(typeof errorState.usernameError);
+        // }
     };
 
 
@@ -58,22 +118,15 @@ const Signup:NextPage = () =>{
         const payload = {...fieldState}
 
         try{
-            if((fieldState.email && fieldState.username) && (fieldState.password && ValidationEmail(fieldState.email))){
+            // if((fieldState.email && fieldState.username) && (fieldState.password && ValidationEmail(fieldState.email))){
                 const result = await axios.post(signupAPI,payload);
-            }
+            // }
         }catch(err){
             console.log(err);
         }
     }   
 
-    const updateFormHandler =  (event : ChangeEvent<HTMLInputElement>) =>{
-        const {id,value} = event.target;
-        const formKey = id as keyof FormState;
-        const updatedFormState = {...fieldState};
-        updatedFormState[formKey] = value;
-        setFieldState(updatedFormState);
-    }
-
+   
     return(
         <>
             <MetaHead />
@@ -83,17 +136,17 @@ const Signup:NextPage = () =>{
                     <h1 className="text-center pb-4 text-5xl"> Bizzz Card  </h1>
                     <form onSubmit={handleSubmit} action={signupAPI} method="POST" className="p-6 pt-12 pb-12  ">
                         <article className="mb-4">
-                            { errorState.usernameError ? <h3> User name must be more then 4 character </h3> : ""}
+                            {/* <p>{ errorState.usernameError}</p> */}
                             <input id="username" placeholder="Create Username" className="text-black w-full h-14 bg-gray-200 rounded-xl pl-4" type="text" name="username" value={fieldState.username} onChange={updateFormHandler}  />
                         </article> 
 
                         <article className="mb-4">
-                            {ValidationEmail(fieldState.email) ? '' : <h3> Please enter a valid email address</h3>}
+                            {/* <p>{ errorState.emailError}</p> */}
                             <input id="email" placeholder="Enter Email Address" className="w-full h-14 bg-gray-200 rounded-xl pl-4" type="text" name="email" value={fieldState.email} onChange={updateFormHandler}   />
                         </article>
 
                         <article className="mb-4">
-                            {fieldState.username.length < 8 && <h3> Passwords must contain at least eight characters, including at least 1 letter and 1 number. </h3>}
+                            {/* <p>{ errorState.passwordError}</p> */}
                             <input id="password" placeholder="Create Password" className="w-full h-14 bg-gray-200 rounded-xl pl-4" type="password" name="password" value={fieldState.password} onChange={updateFormHandler}   />
                         </article>
                         
