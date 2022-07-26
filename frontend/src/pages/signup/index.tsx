@@ -16,7 +16,8 @@ type FormState = {
 type ErrorState = {
     usernameError : String,
     passwordError : String,
-    emailError : String 
+    emailError : String ,
+    errorState : Boolean
 }
 
 
@@ -24,170 +25,126 @@ const Signup:NextPage = () =>{
 
     const signupAPI = "http://localhost:4000/signup";
 
-    // const initFormState = {
-    //     username : " ",
-    //     password : " ",
-    //     email : "",
-    //     bizzzcard : " ",
-    // }
+   
 
 
-    // const [fieldState, setFieldState] = useState<FormState>(initFormState);
-    // const [errorState, setErrorState] = useState<ErrorState>({
-    //     usernameError : " ",
-    //     passwordError:" ",
-    //     emailError: " ",
-    // });
-
-        // const validation = () => {
-        // let emailError = " ";
-        // let usernameError = " ";
-        // let passwordError = " ";
+    const [fieldState, setFieldState] = useState<FormState>({
+        username : " ",
+        password : " ",
+        email : "",
+        bizzzcard : " ",
+    });
     
-        // if(!ValidationEmail(fieldState.email)){
-        //     emailError = "Sorry invalid Email";
-        // }
-
-        // if(fieldState.username.length < 4 ){
-        //     usernameError = " User name must be more then 4 character";
-        // }
-
-        // if(fieldState.password.length < 4){
-        //     passwordError = "Passwords must contain at least eight characters, including at least 1 letter and 1 number";
-        // }
-
-        // if(emailError){
-        //     errorState.emailError = emailError;
-        //     setErrorState(errorState)
-        // }
-
-        // if(usernameError){
-        //     errorState.usernameError = usernameError;
-        //     setErrorState(errorState)
-        // }
-
-        // if(passwordError){
-        //     errorState.passwordError = passwordError;
-        //     setErrorState(errorState);
-        // }
-
-        // return true
-        // if(emailError){
-        //     console.log(emailError);
-        // }else{
-        //     console.log(emailError);
-        // }
-        // if(emailError){
-        //     setFieldState(emailError);
-        //     return false;
-        // }
-        // // return true;
-        // console.log(emailError)
-    //     return true
-    // }
-
+    const [checkErrorState, setCheckErrorState] = useState<ErrorState>({
+        usernameError : " ",
+        passwordError:" ",
+        emailError: " ",
+        errorState : false
+    });
     
 
-    //  const updateFormHandler =  (event : ChangeEvent<HTMLInputElement>) =>{
-    //     const {id,value} = event.target;
-    //     const formKey = id as keyof FormState;
-    //     const updatedFormState = {...fieldState};
-    //     updatedFormState[formKey] = value;
-    //     setFieldState(updatedFormState);
-    // }
 
 
 const userRef = useRef();
 const errRef = useRef();
-const [fieldEmail,setFieldEmail] = useState('');
-const [fieldPassword,setFieldPassword] = useState("");
-const [fieldUserName,setFieldUserName] = useState("");
-const [errorEmail, setErrorEmail] = useState("");
-const [userError, setuserError] = useState("");
-const [passwordError, setPasswordError] = useState("");
-// const [errMsg,setErrMsg] = useState({
-//     usernameError : "",
-//     errEmail: "",
-//     errPassword : ""
-// });
 const [success, setSuccess] = useState(false);
-const [errorState, setErrorState] = useState(false);
 
 useEffect(()=>{
     userRef.current.focus();
 },[]);
 
 useEffect(()=>{
-    setErrorEmail('');
-    setuserError('');
-    setPasswordError('')
-},[fieldEmail,fieldPassword,fieldUserName]);
+    setCheckErrorState({...checkErrorState})
+    setFieldState({...fieldState})
+},[fieldState.email,fieldState.password,fieldState.username]);
 
-
+console.log(fieldState);
    
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
-        console.log(`Email : ${fieldEmail}, Passsword:${fieldPassword}, UserName:${fieldUserName}`);
+        console.log(`Email : ${fieldState.email}, Passsword:${fieldState.password}, UserName:${fieldState.username}`);
 
-        if(errorEmail && userError && passwordError == " "){
-            setFieldEmail('');
-            setFieldPassword('');
-            setFieldUserName('');
-            setErrorState(true);
+        if(checkErrorState.emailError && checkErrorState.usernameError && checkErrorState.passwordError == " "){
+            setCheckErrorState(allError =>{
+                return{
+                    ...allError,
+                    usernameError : "",
+                    passwordError : "",
+                    emailError : "",
+                    errorState : true
+                }
+            })
+            // setErrorState(true);
         }
-        // setFieldEmail('');
-        // setFieldPassword('');
-        // setFieldUserName('');
-        // setErrorEmail('');
-        // setPasswordError('');
-        // setuserError('');
-        setSuccess(true)
 
-        if((fieldEmail == "") || (!ValidationEmail(fieldEmail))){
-            setErrorEmail("Sorry invalid Email or Empty email  ");
+        if((fieldState.email == "") || (!ValidationEmail(fieldState.email))){
+            setCheckErrorState(emailError => {
+                return{
+                    ...emailError,
+                    emailError : "Sorry invalid Email or Empty email  "
+                }
+            })
         }else{
-            setErrorEmail(" ");
+            setCheckErrorState(emailError => {
+                return{
+                    ...emailError,
+                    emailError : " "
+                }
+            })
         }
 
-        if(fieldPassword.length <= 4){
-            setPasswordError("Passwords must contain at least eight characters, including at least 1 letter and 1 number");
+        if(fieldState.password.length <= 4){
+            setCheckErrorState( passwordError => {
+                return{ 
+                    ...passwordError,
+                    passwordError : "Passwords must contain at least eight characters, including at least 1 letter and 1 number"
+                }
+            })
         }else{
-            setPasswordError(" ");
+            setCheckErrorState( passwordError => {
+                return{ 
+                    ...passwordError,
+                    passwordError : " " 
+                }
+            })
         }
 
-        if(fieldUserName.length <= 4){
-            setuserError("User name must be more then 4 character");
+        if(fieldState.username.length <= 4){
+            setCheckErrorState(usernameError =>{
+                return{
+                    ...usernameError,
+                    usernameError : "User name must be more then 4 character"
+                }
+            });
         }else{
-            setuserError("");
+            setCheckErrorState(usernameError =>{
+                return{
+                    ...usernameError,
+                    usernameError : " "
+                }
+            })
         }
-      
-        // await postSubmission();
-        // let isValid = validation();
-        // if(isValid){
-        //      console.log(typeof errorState.usernameError);
-        // }
 
-
-        if(errorState){
+        if(checkErrorState.errorState){
             setSuccess(true);
+            await postSubmission();
         }
     };
 
 
-    // const postSubmission = async () =>{
-    //     fieldState.bizzzcard = {
-    //         email : fieldState.email
-    //     }
-    //     const payload = {...fieldState}
+    const postSubmission = async () =>{
+        fieldState.bizzzcard = {
+            email : fieldState.email
+        }
+        const payload = {...fieldState}
 
-    //     try{
-    //         // if((fieldState.email && fieldState.username) && (fieldState.password && ValidationEmail(fieldState.email))){
-    //             const result = await axios.post(signupAPI,payload);
-    //         // }
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // }   
+        try{
+                 await axios.post(signupAPI,payload);
+                console.log("New user Created");
+        }catch(err){
+            console.log(err);
+        }
+    }   
 
    
     return(
@@ -197,10 +154,10 @@ useEffect(()=>{
 
                  <section className="w-6/12 m-auto pb-20 pt-36">
                     <h1 className="text-center pb-4 text-5xl"> Bizzz Card  </h1>
-                    {/* <p ref={errRef}> {success ? "You did it"  : " " }</p> */}
+                    <p ref={errRef}> {success ? "You did it"  : " " }</p>
                     <form onSubmit={handleSubmit}  className="p-6 pt-12 pb-12  ">
                         <article className="mb-4">
-                            <p>{ userError}</p>
+                            <p>{ checkErrorState.usernameError}</p>
                             <label htmlFor="username"> Create Username</label>
                             <input 
                                 id="username" 
@@ -209,13 +166,19 @@ useEffect(()=>{
                                 type="text" 
                                 autoComplete="no"
                                 name="username" 
-                                value={fieldUserName} 
-                                onChange={(e) => setFieldUserName(e.target.value)}
+                                value={fieldState.username} 
+                                onChange={(e) => setFieldState(userState =>{
+                                    return{
+                                        ...userState,
+                                        username : e.target.value
+
+                                    }
+                                })}
                                 ref={userRef}  />
                         </article> 
 
                         <article className="mb-4">
-                            <p>{ errorEmail}</p>
+                            <p>{ checkErrorState.emailError}</p>
                             <label htmlFor="email"> Enter Email Address</label>
                             <input 
                                 id="email" 
@@ -223,14 +186,20 @@ useEffect(()=>{
                                 className="w-full h-14 bg-gray-200 rounded-xl pl-4" 
                                 type="text" 
                                 name="email" 
-                                value={fieldEmail} 
-                                onChange={(e) => setFieldEmail(e.target.value)}
+                                value={fieldState.email} 
+                                onChange={(e) => setFieldState(prevState => {
+                                    return {
+                                    ...prevState,
+                                    email : e.target.value
+                                    }
+
+                                })}
                                 ref={userRef}   
                             />
                         </article>
 
                         <article className="mb-4">
-                            <p>{ passwordError}</p>
+                            <p>{ checkErrorState.passwordError}</p>
                             <label htmlFor="password"> Create Password</label>
                             <input 
                                 id="password" 
@@ -238,8 +207,13 @@ useEffect(()=>{
                                 className="w-full h-14 bg-gray-200 rounded-xl pl-4" 
                                 type="password" 
                                 name="password" 
-                                value={fieldPassword} 
-                                onChange={(e) => setFieldPassword(e.target.value) }   
+                                value={fieldState.password} 
+                                onChange={(e) => setFieldState( passwordState =>{
+                                    return{
+                                        ...passwordState,
+                                        password : e.target.value
+                                    }
+                                }) }   
                                 ref={userRef}
                             />
                         </article>
