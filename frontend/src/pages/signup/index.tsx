@@ -25,9 +25,6 @@ const Signup:NextPage = () =>{
 
     const signupAPI = "http://localhost:4000/signup";
 
-   
-
-
     const [fieldState, setFieldState] = useState<FormState>({
         username : " ",
         password : " ",
@@ -56,7 +53,7 @@ useEffect(()=>{
 useEffect(()=>{
     setCheckErrorState({...checkErrorState})
     setFieldState({...fieldState})
-},[fieldState.email,fieldState.password,fieldState.username]);
+},[fieldState.email,fieldState.password,fieldState.username,checkErrorState.errorState]);
 
 console.log(fieldState);
    
@@ -139,8 +136,8 @@ console.log(fieldState);
         const payload = {...fieldState}
 
         try{
-                 await axios.post(signupAPI,payload);
-                console.log("New user Created");
+            await axios.post(signupAPI,payload);
+            console.log("New user Created");
         }catch(err){
             console.log(err);
         }
