@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-color: black;
+}
 h2 {
     font-size: 1.5rem;
     font-weight: bold;

@@ -1,4 +1,7 @@
+
 const mongoose = require("mongoose");
+
+
 
 const addressSchema = new mongoose.Schema({
     street : String,
@@ -31,6 +34,7 @@ const userSchema = new mongoose.Schema({
 const userAccount = new mongoose.Schema({
     username: String,
     password:String,
+    email:String,
     bizzzcard: userSchema
 });
 

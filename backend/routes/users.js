@@ -15,6 +15,7 @@ router.get("/", (req,res) =>{
     // res.render('http://localhost:3000/login');
 });
 
+
 router.get("/:id", (req,res)=>{
     bizzUser.findById(req.params.id)
     .then(users => res.json(users))

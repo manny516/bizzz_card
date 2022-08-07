@@ -1,16 +1,15 @@
 import { NextPage } from "next";
 import  MetaHead  from "components/globals/MetaHead";
 import bgimage from "img/bgstarts.jpg";
-import { ChangeEvent, useState, useEffect,useRef } from "react";
+import { useState, useEffect,useRef } from "react";
 import axios from "axios";
-import ValidationEmail from "../../components/globals/ValidationEmail";
+import {ValidationEmail,AlphaNumeric,ValidatePassword} from "../../components/globals/formValidators";
 
 
 type FormState = {
     username : String,
     password : String,
     email : String,
-    bizzzcard : Object,
 }
 
 type ErrorState = {
@@ -29,7 +28,6 @@ const Signup:NextPage = () =>{
         username : " ",
         password : " ",
         email : "",
-        bizzzcard : " ",
     });
     
     const [checkErrorState, setCheckErrorState] = useState<ErrorState>({
@@ -90,7 +88,7 @@ console.log(fieldState);
             })
         }
 
-        if(fieldState.password.length <= 4){
+        if(!ValidatePassword(fieldState.password)){
             setCheckErrorState( passwordError => {
                 return{ 
                     ...passwordError,
@@ -106,11 +104,11 @@ console.log(fieldState);
             })
         }
 
-        if(fieldState.username.length <= 4){
+        if(!AlphaNumeric(fieldState.username)){
             setCheckErrorState(usernameError =>{
                 return{
                     ...usernameError,
-                    usernameError : "User name must be more then 4 character"
+                    usernameError : "User name must be 4 character using only letters or numbers "
                 }
             });
         }else{
@@ -130,24 +128,42 @@ console.log(fieldState);
 
 
     const postSubmission = async () =>{
-        fieldState.bizzzcard = {
-            email : fieldState.email
-        }
         const payload = {...fieldState}
-
         try{
-            await axios.post(signupAPI,payload);
-            console.log("New user Created");
+            await axios({
+                method : 'post',
+                url : signupAPI,
+                data : payload
+            })
+            .catch((err) =>{
+                if(err){
+                    console.log(err);
+                    const errorMessage  = err.response.data.message;
+                    const errorKey = errorMessage.split(" ");
+                    console.log(errorKey[0]);
+                    if(errorKey[0] == "Email:" ){
+                        setCheckErrorState( (mailError)=>{
+                            return {
+                                ...mailError,
+                                emailError : err.response.data.message
+                            }
+                        })
+                    }
+                }
+            });
         }catch(err){
-            console.log(err);
+            console.log(err );
         }
+        
+        console.log(`State Error : ${checkErrorState.emailError}`);
+
     }   
 
    
     return(
         <>
             <MetaHead />
-             <section className="section-top w-screen h-screen dark-mode" style={{backgroundImage: `url(${bgimage.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
+             <section className="section-top w-screen h-screen dark-mode" style={{backgroundImage: `url(${bgimage.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover", backgroundColor:"#666"}}>
 
                  <section className="w-6/12 m-auto pb-20 pt-36">
                     <h1 className="text-center pb-4 text-5xl"> Bizzz Card  </h1>
