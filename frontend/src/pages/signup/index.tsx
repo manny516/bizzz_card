@@ -7,9 +7,9 @@ import {ValidationEmail,AlphaNumeric,ValidatePassword} from "../../components/gl
 
 
 type FormState = {
-    username : String,
-    password : String,
-    email : String,
+    username : any,
+    password : any,
+    email : any,
 }
 
 type ErrorState = {
@@ -40,18 +40,19 @@ const Signup:NextPage = () =>{
 
 
 
-const userRef = useRef();
-const errRef = useRef();
+const userRef:any = useRef();
+const errRef:any = useRef();
 const [success, setSuccess] = useState(false);
-
-useEffect(()=>{
-    userRef.current.focus();
-},[]);
 
 useEffect(()=>{
     setCheckErrorState({...checkErrorState})
     setFieldState({...fieldState})
 },[fieldState.email,fieldState.password,fieldState.username,checkErrorState.errorState]);
+
+// useEffect(()=>{
+//     userRef.current.focus();
+// },[]);
+
 
 console.log(fieldState);
    
@@ -141,22 +142,22 @@ console.log(fieldState);
                     const errorMessage  = err.response.data.message;
                     const errorKey = errorMessage.split(" ");
                     console.log(errorKey[0]);
-                    if(errorKey[0] == "Email:" ){
-                        setCheckErrorState( (mailError)=>{
+                  
+                    if((errorKey[0])){
+                        setCheckErrorState( (errorMessage)=>{
                             return {
-                                ...mailError,
-                                emailError : err.response.data.message
+                                ...errorMessage,
+                                [`${errorKey[0]}Error`] : err.response.data.message
                             }
                         })
                     }
+
                 }
             });
         }catch(err){
             console.log(err );
         }
-        
         console.log(`State Error : ${checkErrorState.emailError}`);
-
     }   
 
    
@@ -173,13 +174,14 @@ console.log(fieldState);
                             <p>{ checkErrorState.usernameError}</p>
                             <label htmlFor="username"> Create Username</label>
                             <input 
+                                value={fieldState.username} 
                                 id="username" 
                                 placeholder="Create Username" 
                                 className="text-black w-full h-14 bg-gray-200 rounded-xl pl-4" 
                                 type="text" 
                                 autoComplete="no"
                                 name="username" 
-                                value={fieldState.username} 
+                               
                                 onChange={(e) => setFieldState(userState =>{
                                     return{
                                         ...userState,
