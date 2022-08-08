@@ -14,19 +14,20 @@ router.post("/", jsonParse, async(req,res) =>{
 
     try{
         const {error} = authSchema(req.body);
-        console.log(error);
         const username = req.body.username;
         const email = req.body.email;
+        const user = await bizzUser.findOne({email: email});
+        const userNameCheck = await bizzUser.findOne({username: username});
         const password = await bcrypt.hash(req.body.password,10);
-        const emailExist = await bizzUser.findOne({email: email});
-        const usernameExist = await bizzzUser.findOne({username : username})
 
 
-        if(error) return res.status(409).send({message:error.details[0].message})
+
+        if(error) return res.status(409).send({message:error.details[0].message});
         
-        if(emailExist) return res.status(409).send({message:"Email: This email address already Exist"})
+        if(userNameCheck) return res.status(409).send({message: "username This user name already Exist"});
 
-        if(usernameExist) return res.status(409).send({message:"username: The user name already Exist"})
+        if(user) return res.status(409).send({message:"email This Email address already Exist"});
+        
 
             
         const registerUser = new bizzUser({
@@ -38,6 +39,7 @@ router.post("/", jsonParse, async(req,res) =>{
         await registerUser.save()
         .then(() => res.json("User Created"))
         .catch(err => res.status(400).json('Error' + err));
+         
     }catch(error){
         res.status(500).send({message: "Internal Server error"});
     }
