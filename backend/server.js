@@ -5,7 +5,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const {ApolloServer} = require('apollo-server-express');
 const usersRoutes = require('./routes/users');
-const signupRoutes = require('./routes/signup')
+const signupRoutes = require('./routes/signup');
+const loginRoute = require('./routes/login');
 const {typeDefs,resolvers} = require('./schema');
 require("dotenv").config();
 
@@ -44,6 +45,7 @@ const startServer = async () => {
     //Routes
     app.use("/users", usersRoutes);
     app.use("/signup", signupRoutes);
+    app.use("/login", loginRoute);
     
     app.get("/code", (req,res)=>{
         res.send(`<h1>Hello world</h1>`);

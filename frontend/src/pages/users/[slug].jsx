@@ -1,11 +1,10 @@
-import type { NextPage } from 'next'
 import  MetaHead  from "components/globals/MetaHead";
 import { useRouter } from "next/router";
 import Image from 'next/image'
 import profileImg from "img/profile.png";
 import DividerBlind from 'components/globals/DividerBlind';
 
-const Profile: NextPage = () => {
+const Profile =  () => {
   const router = useRouter();
   let slug = router.query.slug;
 

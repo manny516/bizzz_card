@@ -16,6 +16,7 @@ router.post("/", jsonParse, async(req,res) =>{
         const {error} = authSchema(req.body);
         const username = req.body.username;
         const email = req.body.email;
+        const bizzzProfile = req.body.bizzzcard;
         const user = await bizzUser.findOne({email: email});
         const userNameCheck = await bizzUser.findOne({username: username});
         const password = await bcrypt.hash(req.body.password,10);
@@ -34,6 +35,7 @@ router.post("/", jsonParse, async(req,res) =>{
             username,
             password,
             email,
+            bizzzProfile
         });
 
         await registerUser.save()
