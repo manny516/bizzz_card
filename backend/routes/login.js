@@ -1,36 +1,48 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const router = require("express").Router();
-const {bizzzUser,validate} = require("../models/collections/Users");
+const {bizzUser} = require("../models/collections/Users");
+const authSchema = require('../models/Validate_schema');
+const bodyParser = require('body-parser');
+const app = express();
+const jsonParse = bodyParser.json();
 const bcrypt = require("bcrypt");
 
-const app = express();
 
 app.use(bodyParser.urlencoded({extended : true}));
 
-router.post("/",async (req,res) =>{
+router.post("/", jsonParse, async(req,res) =>{
 
     try{
-        const {error} = validate(req.body);
-        if(error){
-            return res.status(400).send({message: error.details[0].message})
-        }
-        const user = await bizzzUser.findOne({username: req.body.username});
-        if(!user){
-            return res.status(401).send({ message: "Invalid Email or Password"})
-        }
+        console.log("login page");
+        const user = await bizzUser.findOne({username: req.body.username});
         const validatePassword = await bcrypt.compare(
             req.body.password, 
             user.password
         )
+        console.log("userPAssworder",user.password)
+        console.log("request PAssword", req.body.password);
+        console.log(validatePassword);
+
+        // console.log(user.password);
+        // // const {error} = validate(req.body);
+        // if(error){
+        //     return res.status(400).send({message: error.details[0].message})
+        // }
+       
+        // if(!user){
+        //     return res.status(401).send({ message: "Invalid Email or Password"})
+        // }
+        
+
+        // console.log(validatePassword);
 
         if(!validatePassword){
             return res.status(401).send({ message: error.details[0].message})
+        }else{  
+            return res.status(200).send({message: "Successfully logged in"})
         }
-
-        res.status(200).send({message: "Successfully logged in"})
-    }catch{
-
+    }catch(error){
+        res.status(500).send({message: "Internal Server error"});
     }
 
 })
